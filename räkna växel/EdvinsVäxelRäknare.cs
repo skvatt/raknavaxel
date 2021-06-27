@@ -1,0 +1,118 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace räkna_växel
+{
+
+    //static == vi behöver inte initiera classen den tillhör för att komma åt innehållet
+    //void == ingenting returneras
+    // Vi skapar en ny statisk klass som heter EdvinsVäxelRäknare
+    static class EdvinsVäxelRäknare
+    {
+                    
+        //static void startaKassan definierar en metod, som heter startaKassan, som kan kallas på när som helst och som är void, som inte returnerar någonting
+        public static void StartaKassan()
+                                                       {
+            //vi skapar en bool (== falskt/sant värde som vi kan använda för att skapa en en do/while sats kopplat till en if/else sats som kör programmet så länge vi inte skriver n när programmet frågar om vi har en ny kund
+            bool påAv = true;
+           
+            //do är en del av do/while loopen och vi kommer loopa koden inom kamelerna "while" vårt värde i "while" raden uppfylls          
+           do
+
+            {
+                // vi frågar om vi har en ny kund
+               Console.WriteLine("Ny kund? Tryck enter.\n Om inte, tryck n, enter, 1, enter, 1, enter");
+               
+                //vi läser svaret, om svaret är någonting annat än n så har vi ny kund och vi räknar växel, om svaret är n har vi ingen ny kund och programmet avslutas efter ett par entertryck (senare kodrader)
+            String köraKassa = Convert.ToString(Console.ReadLine());
+
+                if (köraKassa == "n")
+
+                {
+                    påAv = false;
+                }
+
+               else
+                {
+                    påAv = true;
+                }
+                
+                //cv == console.writeline() snabbt                
+                Console.WriteLine("Enter cost");
+
+                //double == definerar att kommande string är numerisk och kan innehålla decimaler, denna typ heter kostnad, = är tilldela och convert.ToDouble konverterar stringen till double, Console.Readline() hämtar string ifrån konsollen
+                double kostnad = Convert.ToDouble(Console.ReadLine());
+
+
+                //vi avrundar kostnaden till närmaste 50-öring, denna lösning adapterades från stackoverflow
+                double avrundadKostnad = Math.Round(2 * kostnad) / 2;
+
+        //Skriver texten i konsollen
+        Console.WriteLine("Enter betalning");
+
+            //double definierar pengarIn som en string som är numerisk och kan innehålla decimaler och tilldelar den värdet som vi läser ifrån konsollen och konverterar den till Double, vilket innebär att den är numerisk och kan innehålla decimaler
+            double pengarIn = Convert.ToDouble(Console.ReadLine());
+
+            // för att inte bli lurad av kunden måste programmet säga till om vi fått för lite pengar, därför använder vi if-satsen för att se om vi får negativ växel, om pengarIn - kostnad är under 0 så ska vi be om mer pengar
+            if (pengarIn - avrundadKostnad < 0)
+
+                    Console.WriteLine("Detta belopp räcker inte");
+                                    
+            else
+            {
+                    
+                    //Console.WriteLine skriver ut vad vi får tillbaka, 
+                    double pengarTillbaka = pengarIn - avrundadKostnad;
+                    //vi deklarerar en variabel för varje mynt/sedel
+                    double tusenlapp = 1000;
+
+                    //vi deklarerar en variabel för antal av varje sedel. Sedan avrundar vi nedåt med Math.Floor och delar pengar tillbaka först med tusenlapp, femhundralapp etc
+                    double antalTusenlappar = Math.Floor(pengarTillbaka/tusenlapp);
+
+                    //vi skriver ut antal tusenlappar
+                    Console.WriteLine("antal tusenlappar är " + antalTusenlappar);
+
+                    // sedan repeterar vi processen för femhundralappar ned till femtioöringar
+                    double femHundraLapp = 500;
+                    double antalFemHundraLappar = Math.Floor((pengarTillbaka % 1000)/femHundraLapp);
+                    Console.WriteLine("antal femhundralappar är " + antalFemHundraLappar);
+                    double hundraLapp = 100;
+                    double antalHundraLappar = Math.Floor((pengarTillbaka % 500) / hundraLapp);
+                    Console.WriteLine("antal hundralappar är " + antalHundraLappar);
+                    double femtioLapp = 50;
+                    double antalFemtioLappar = Math.Floor((pengarTillbaka % 100) / femtioLapp);
+                    Console.WriteLine("antal femtiolappar är " + antalFemtioLappar);
+                    double tjugoLapp = 20;
+                    double antalTjugoLappar = Math.Floor((pengarTillbaka % 50) / tjugoLapp);
+                    Console.WriteLine("antal tjugolappar är " + antalTjugoLappar);
+                    double tior = 10;
+                    //för att få rätt antal tior måste vi lägga till parantes med en modulus eftersom programmet inte håller koll på totalsumman. (annars ger vi ut för mycket pengar)
+                    double antalTior = Math.Floor(((pengarTillbaka % 50 ) % 20) / tior);
+                    Console.WriteLine("antal tior är " + antalTior);
+                    double femmor = 5;
+                    double antalFemmor = Math.Floor((pengarTillbaka % 10) / femmor);
+                    Console.WriteLine("antal femmor är " + antalFemmor);
+                    double enKronor = 1;
+                    double antalEnKronor = Math.Floor((pengarTillbaka % 5) / enKronor);
+                    Console.WriteLine("antal enkronor är " + antalEnKronor);
+                    double femtioÖringar = 0.5;
+                    double antalFemtioÖringar = Math.Floor(pengarTillbaka % 1/femtioÖringar);
+                    Console.WriteLine("antal femtioöringar är " + antalFemtioÖringar);
+                }
+
+
+            
+            }
+   //while loopen sluts här, om vi skriver n + enter + valfri double, enter + valfri double, enter så stängs programmet av. annars fortsätter vi o loopar ett varv till
+           while (påAv);
+            
+
+        }
+
+
+    }
+
+}
